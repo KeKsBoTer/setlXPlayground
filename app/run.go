@@ -58,7 +58,7 @@ func runAsString(code string) ([]byte, error) {
 // Workaround
 // create temp file, run it and then delte it
 func runAsFile(code string) ([]byte, error) {
-	f, err := ioutil.TempFile("temp", "code")
+	f, err := ioutil.TempFile("tmp", "code")
 	if err != nil {
 		return nil, err
 	}

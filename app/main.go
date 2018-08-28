@@ -4,6 +4,7 @@ import (
 	"io/ioutil"
 	"log"
 	"net/http"
+	"os"
 
 	tmpl "html/template"
 
@@ -47,6 +48,8 @@ func main() {
 		}
 		w.Write(output)
 	})
+
+	os.Mkdir("tmp", os.ModePerm)
 
 	fileHandler := http.StripPrefix("/static/", http.FileServer(http.Dir("www/static")))
 	router.PathPrefix("/static/").Handler(fileHandler)
