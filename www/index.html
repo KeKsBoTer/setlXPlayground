@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>The setlX Playground</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="static/style.css">
+</head>
+
+<body>
+    <header>
+        <left>
+            <h1>The setlX Playground</h1>
+            <buttongroup>
+                <button onclick="run()" id="run">Run</button>
+            </buttongroup>
+        </left>
+        <right>
+            <button>About</button>
+        </right>
+    </header>
+    <main>
+        <editor>
+            <lines id="lines">
+
+            </lines>
+            <textarea id="code" autocorrect="off" autocomplete="off" autocapitalize="off" spellcheck="false" wrap="off">print("Hello setlX");</textarea>
+        </editor>
+        <pre class="output" id="output">
+        </pre>
+    </main>
+    <script src="/static/script.js"></script>
+</body>
+
+</html>

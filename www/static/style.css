@@ -1,0 +1,133 @@
+body {
+    font-family: 'Courier New', Courier, monospace;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+
+    position: fixed;
+    display: flex;
+    flex-direction: column;
+}
+
+button {
+    background: rgb(54, 54, 136);
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 5px 7px;
+    font-size: 18px;
+    font-family: inherit;
+}
+
+button:focus {
+    outline-color: white;
+}
+
+button:active {
+    background-color: rgb(35, 35, 95);
+}
+
+header {
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    padding: 10px;
+    background: rgb(130, 130, 214);
+}
+
+header h1 {
+    font-size: 24px;
+    margin: 0;
+    padding: 0;
+    margin-right: 10px;
+}
+
+header>* {
+    margin: 0 5px;
+}
+
+header>left,
+right {
+    display: flex;
+    align-items: center;
+}
+
+header buttongroup {
+    margin: 0 10px;
+}
+
+main{
+    width: 100%;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    align-content: stretch;
+}
+
+main > editor{
+    font-family: Menlo, monospace;
+    width: 100%;
+    flex-grow: 1;
+    box-sizing: border-box;
+    overflow: hidden;
+    display: flex;
+    padding: 5px;
+    background-color: lemonchiffon;
+    font-size: 11pt;
+    height: 80%;
+}
+
+editor > textarea{
+    width: 97%;
+    width: 100%;
+    height: 100%;
+    resize: none;
+    overflow: auto;
+    box-sizing: border-box;
+    border: none;
+    background: transparent;
+    line-height: 14pt;
+}
+
+editor > lines{
+    height: 0;
+    margin-right: 5px;
+    text-align: right;
+    opacity: .3;
+    width:3%;
+}
+
+lines div{
+    height: 14pt;
+    vertical-align: baseline;
+    transform: translateY(1.2pt);
+}
+
+main > .output{
+    height: 20%;
+    min-height: 100px;
+    max-height: 200px;
+    padding: 10px;
+    margin: 0;
+    overflow: auto;
+    box-sizing: border-box;
+    flex-shrink: 0;
+}
+.output p{
+    margin: 0;
+    font-size: 15px;
+}
+
+.output p.info{
+    opacity: .7;
+    margin: 10px 0;
+}
+.output p.error{
+    color: red;
+}
