@@ -1,57 +1,46 @@
-var codeContainer = document.getElementById("code")
 var linesContainer = document.getElementById("lines")
 var runButton = document.getElementById("run")
+var codeEditor;
+
+
+window.onload = function () {
+    let codeArea = document.getElementById("code")
+    codeEditor = CodeMirror.fromTextArea(codeArea, {
+        lineNumbers: true,
+        autofocus: true,
+        indentUnit: 4,
+        mode: "setlx"
+    })
+}
 
 function run() {
-    var elm = codeContainer
-    var out = document.getElementById("output")
-    out.innerHTML = "<p class='info'>" + "Waiting for remote server..." + "</p>"
+    let code = codeEditor.getValue()
+    // check if code is empty
+    if (!code)
+        return
+
+    let out = document.getElementById("output")
+    out.innerHTML = "<span class='info'>" + "Waiting for remote server..." + "</span>"
     fetch("/run", {
         method: "POST",
         headers: {
             "Content-Type": "text/plain; charset=utf-8",
         },
-        body: elm.value
-    }).then(function (response) {
+        body: code
+    }).then(async (response) => {
         if (response.ok)
             return response.json()
-        throw response.statusText;
-    }).then(function (json) {
-        var lines = ""
+        let errorMsg = await response.text()
+        throw errorMsg ? errorMsg : response.statusText
+    }).then((json) => {
+        out.innerHTML = ""
         for (var msg of json.Events) {
-            lines += "<p>" + atob(msg.Text) + "</p>"
+            out.innerHTML += `<span class="${msg.Kind}">${msg.Text}</span>`
+            out.scrollTo(0, out.scrollHeight)
         }
-        lines += "<p class='info'>" + "Program exited." + "</p>"
-        out.innerHTML = lines;
-    }).catch(function (e) {
-        out.innerHTML = "<p class='error'>" + e + "</p>"
+        out.innerHTML += `<span class="info">Program exited.</span>`
+        out.scrollTo(0, out.scrollHeight)
+    }).catch((e) => {
+        out.innerHTML = `<span class="stderr">${e}</span>`
     })
-}
-
-document.onreadystatechange = function () {
-    checkLines(codeContainer)
-}
-
-codeContainer.addEventListener('scroll', function (e) {
-    linesContainer.style.transform = "translateY(" + -e.target.scrollTop + "px)"
-}, {
-    passive: true
-});
-
-codeContainer.onkeyup = function (e) {
-    checkLines(e.target)
-}
-codeContainer.onkeydown = function (e) {
-    checkLines(e.target)
-}
-
-function checkLines(area) {
-    var lines = area.value.split("\n").length
-    if (lines < 100)
-        lines = 100
-    var l = ""
-    for (var i = 1; i <= lines; i++) {
-        l += "<div>" + i + "</div>"
-    }
-    linesContainer.innerHTML = l
 }

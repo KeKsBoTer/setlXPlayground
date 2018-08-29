@@ -8,11 +8,12 @@ import (
 	"os"
 	"os/exec"
 	"strings"
+	"sync"
 	"time"
 )
 
 type Message struct {
-	Text  []byte
+	Text  string
 	Kind  string
 	Delay int
 }
@@ -32,22 +33,32 @@ func run(code []byte) ([]byte, error) {
 		return nil, err
 	}
 	log.Printf("Finished after %s seconds\n", time.Since(start).String())
-	lines := strings.Split(string(out), "\n")
 	r := Response{
-		Events: make([]Message, len(lines)),
-	}
-	for i, l := range lines {
-		r.Events[i] = Message{
-			Text:  []byte(l),
-			Kind:  "stdout",
-			Delay: 0,
-		}
+		Events: out,
 	}
 	b, err := json.Marshal(r)
 	if err != nil {
 		return nil, err
 	}
 	return b, nil
+}
+
+type writer struct {
+	source string
+
+	mu     *sync.Mutex
+	writes *[]Message
+}
+
+func (w *writer) Write(bytes []byte) (int, error) {
+	w.mu.Lock()
+	defer w.mu.Unlock()
+	*w.writes = append(*w.writes, Message{
+		Kind:  w.source,
+		Text:  string(bytes),
+		Delay: int(time.Now().Unix()),
+	})
+	return len(bytes), nil
 }
 
 func runAsString(code string) ([]byte, error) {
@@ -57,7 +68,7 @@ func runAsString(code string) ([]byte, error) {
 
 // Workaround
 // create temp file, run it and then delte it
-func runAsFile(code string) ([]byte, error) {
+func runAsFile(code string) ([]Message, error) {
 	f, err := ioutil.TempFile("tmp", "code")
 	if err != nil {
 		return nil, err
@@ -67,5 +78,20 @@ func runAsFile(code string) ([]byte, error) {
 	f.WriteString(code)
 
 	cmd := exec.Command("setlx", f.Name())
-	return cmd.CombinedOutput()
+
+	var mu sync.Mutex
+	var messages []Message
+
+	cmd.Stderr = &writer{
+		source: "stderr",
+		mu:     &mu,
+		writes: &messages,
+	}
+	cmd.Stdout = &writer{
+		source: "stdout",
+		mu:     &mu,
+		writes: &messages,
+	}
+	cmd.Run()
+	return messages, nil
 }

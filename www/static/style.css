@@ -4,14 +4,11 @@ body {
     padding: 0;
     width: 100%;
     height: 100%;
-
     position: fixed;
-    display: flex;
-    flex-direction: column;
 }
 
 button {
-    background: rgb(54, 54, 136);
+    background: rgb(113, 175, 255);
     color: white;
     border: none;
     border-radius: 5px;
@@ -25,7 +22,7 @@ button:focus {
 }
 
 button:active {
-    background-color: rgb(35, 35, 95);
+    background-color: rgb(107, 154, 192);
 }
 
 header {
@@ -35,12 +32,16 @@ header {
     flex-wrap: wrap;
     justify-content: space-between;
     align-items: center;
+    height: 50px;
     width: 100%;
     padding: 10px;
-    background: rgb(130, 130, 214);
+    background: rgb(192, 219, 255);
+    border-bottom: 1px solid #ddd;
 }
 
 header h1 {
+    font-family: Arial, sans-serif;
+    font-weight: normal;
     font-size: 24px;
     margin: 0;
     padding: 0;
@@ -61,73 +62,63 @@ header buttongroup {
     margin: 0 10px;
 }
 
-main{
+main {
     width: 100%;
-    flex-grow: 1;
-    display: flex;
-    flex-direction: column;
-    align-items: stretch;
-    align-content: stretch;
+    height: calc(100% - 50px);
 }
 
-main > editor{
+main>editor {
     font-family: Menlo, monospace;
     width: 100%;
-    flex-grow: 1;
+    height: 75%;
     box-sizing: border-box;
     overflow: hidden;
     display: flex;
-    padding: 5px;
-    background-color: lemonchiffon;
     font-size: 11pt;
-    height: 80%;
 }
 
-editor > textarea{
-    width: 97%;
+editor>.CodeMirror {
     width: 100%;
     height: 100%;
-    resize: none;
-    overflow: auto;
-    box-sizing: border-box;
-    border: none;
-    background: transparent;
-    line-height: 14pt;
 }
 
-editor > lines{
+editor>lines {
     height: 0;
     margin-right: 5px;
     text-align: right;
     opacity: .3;
-    width:3%;
+    width: 3%;
 }
 
-lines div{
+lines div {
     height: 14pt;
     vertical-align: baseline;
     transform: translateY(1.2pt);
 }
 
-main > .output{
-    height: 20%;
-    min-height: 100px;
+main>.output {
+    height: 25%;
+    min-height: 50px;
     max-height: 200px;
     padding: 10px;
     margin: 0;
     overflow: auto;
     box-sizing: border-box;
     flex-shrink: 0;
+    border-top: 1px solid #ddd;
+    background-color: #f7f7f7;
 }
-.output p{
+
+.output span {
     margin: 0;
     font-size: 15px;
 }
 
-.output p.info{
+.output span.info {
     opacity: .7;
     margin: 10px 0;
 }
-.output p.error{
+
+.output span.stderr {
     color: red;
 }

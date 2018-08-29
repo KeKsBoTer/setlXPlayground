@@ -6,7 +6,11 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>The setlX Playground</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" type="text/css" href="static/style.css">
+    <script src="/static/lib/codemirror.min.js"></script>
+    <script src="/static/mode/setlx/simple.js"></script>
+    <script src="/static/mode/setlx/setlx.js"></script>
+    <link rel="stylesheet" href="/static/lib/codemirror.min.css">
+    <link rel="stylesheet" type="text/css" href="/static/style.css">
 </head>
 
 <body>
@@ -15,6 +19,7 @@
             <h1>The setlX Playground</h1>
             <buttongroup>
                 <button onclick="run()" id="run">Run</button>
+                <button onclick="share()" id="run">Share</button>
             </buttongroup>
         </left>
         <right>
@@ -23,12 +28,10 @@
     </header>
     <main>
         <editor>
-            <lines id="lines">
-
-            </lines>
             <textarea id="code" autocorrect="off" autocomplete="off" autocapitalize="off" spellcheck="false" wrap="off">print("Hello setlX");</textarea>
         </editor>
         <pre class="output" id="output">
+
         </pre>
     </main>
     <script src="/static/script.js"></script>

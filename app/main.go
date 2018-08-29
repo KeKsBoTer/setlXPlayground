@@ -49,8 +49,12 @@ func main() {
 		w.Write(output)
 	})
 
-	os.Mkdir("tmp", os.ModePerm)
-
+	if _, err := os.Stat("tmp"); os.IsNotExist(err) {
+		if err := os.Mkdir("tmp", os.ModeTemporary); err != nil {
+			log.Fatalln(err)
+			return
+		}
+	}
 	fileHandler := http.StripPrefix("/static/", http.FileServer(http.Dir("www/static")))
 	router.PathPrefix("/static/").Handler(fileHandler)
 	http.ListenAndServe("localhost:8080", router)
