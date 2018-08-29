@@ -14,6 +14,7 @@ import (
 const dev = true
 
 func main() {
+	log.Println("Start")
 
 	template, err := tmpl.ParseFiles("www/index.html")
 	if err != nil {
@@ -57,5 +58,6 @@ func main() {
 	}
 	fileHandler := http.StripPrefix("/static/", http.FileServer(http.Dir("www/static")))
 	router.PathPrefix("/static/").Handler(fileHandler)
-	http.ListenAndServe("localhost:8080", router)
+	http.ListenAndServe(":8080", router)
+	log.Println("End")
 }

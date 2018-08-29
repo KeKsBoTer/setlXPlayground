@@ -77,7 +77,7 @@ func runAsFile(code string) ([]Message, error) {
 	defer f.Close()
 	f.WriteString(code)
 
-	cmd := exec.Command("setlx", f.Name())
+	cmd := exec.Command("setlX", f.Name())
 
 	var mu sync.Mutex
 	var messages []Message

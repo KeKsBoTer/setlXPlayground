@@ -1,0 +1,66 @@
+#!/bin/bash
+#
+#
+# launcher script for the setlX interpreter on Unix-like systems
+#
+#
+
+# insert path to the folder where you copied the jar files here
+setlXJarDirectory="/root/setlx/"
+
+# insert full path to library location here
+setlXlibraryPath="/root/setlx/setlXlibrary/"
+
+############################## additional options ##############################
+javaParameters=""
+
+# uncomment to force execution in 64 bit mode
+#javaParameters="$javaParameters -d64"
+
+# uncomment to execute with increased memory size (6GB) (>2GB needs 64 Bit mode!)
+#javaParameters="$javaParameters -Xmx6144m"
+
+# uncomment to execute with increased stack size
+#javaParameters="$javaParameters -Xss48m"
+
+################################################################################
+
+if [ -n "$OVERRIDE_setlXJarDirectory" ]
+  then
+    setlXJarDirectory="$OVERRIDE_setlXJarDirectory"
+fi
+if [ -n "$OVERRIDE_setlXjavaParameters" ]
+  then
+    javaParameters="$OVERRIDE_setlXjavaParameters"
+fi
+if [ -z "$SETLX_LIBRARY_PATH" ]
+  then
+    export SETLX_LIBRARY_PATH="$setlXlibraryPath"
+fi
+
+java_call="java"
+
+if [ $(which rlwrap > /dev/null 2>&1; echo $?) -eq 0 ]
+  then
+    java_call="rlwrap -C $(basename $0) $java_call"
+fi
+
+jarFiles=""
+while read -r -d $'\0' jarname
+  do
+    if [ -n "$jarFiles" ]
+      then
+        jarFiles="$jarFiles:"
+    fi
+    jarFiles="$jarFiles${jarname#./}"
+done < <( find "$setlXJarDirectory" -maxdepth 1 -name "*.jar" -print0 )
+
+if [ -n "$jarFiles" ]
+  then
+    $java_call -cp "$jarFiles:$CLASSPATH" $javaParameters org.randoom.setlx.pc.ui.SetlX "$@"
+    exit $?
+else
+    echo "The setlX jar files cannot be found!"
+    exit 1
+fi
+
