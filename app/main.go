@@ -11,8 +11,6 @@ import (
 	"github.com/gorilla/mux"
 )
 
-const dev = true
-
 func main() {
 	log.Println("Start")
 
@@ -26,11 +24,6 @@ func main() {
 	router.StrictSlash(true)
 
 	router.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-		template, err = tmpl.ParseFiles("www/index.html")
-		if err != nil {
-			log.Fatalln(err)
-			return
-		}
 		template.Execute(w, nil)
 	})
 
