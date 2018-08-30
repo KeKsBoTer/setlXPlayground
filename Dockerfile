@@ -1,9 +1,11 @@
 FROM golang as builder
 WORKDIR /server/
+
+COPY go.mod .
+COPY go.sum .
 COPY app .
 
-RUN go get github.com/gorilla/mux
-RUN go build -a -o setlxplay .
+RUN go build -a -o setlxplay ./app
 
 
 # FROM gcr.io/distroless/java
