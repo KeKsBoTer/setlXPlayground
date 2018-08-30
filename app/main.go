@@ -16,6 +16,7 @@ var mode string
 
 func main() {
 	flag.StringVar(&mode, "mode", "prod", "run mode, dev or prod")
+	datbaseFolder := *flag.String("database", "db/", "folder of the database")
 	flag.Parse()
 
 	template, err := tmpl.ParseFiles("www/index.html")
@@ -23,6 +24,13 @@ func main() {
 		log.Fatalln(err)
 		return
 	}
+
+	db, err := Open(datbaseFolder)
+	if err != nil {
+		log.Fatalln(err)
+		return
+	}
+	defer db.Close()
 
 	router := mux.NewRouter()
 	router.StrictSlash(true)

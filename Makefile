@@ -8,10 +8,7 @@ run:
 	./$(name).exe -mode="dev"
 
 build:
-	go build -o $(name).exe $(package)
-
-deps:
-	go get github.com/gorilla/mux
+	GO111MODULE=on go build -o $(name).exe $(package)
 
 release:
 	CGO_ENABLED=0 go build -ldflags="-s -w" -a -installsuffix nocgo -o setlxplay ./app
