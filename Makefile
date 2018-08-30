@@ -1,6 +1,6 @@
 name = setlxPlayground
 
-package = github.com/KeKsBoTer/$(name)/app
+package = ./app
 
 all: build run
 
