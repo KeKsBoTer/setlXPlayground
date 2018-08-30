@@ -13,5 +13,5 @@ COPY setlx setlx
 COPY www www
 COPY --from=builder /server/setlxplay .
 ENV PATH "$PATH:/root/setlx"
-ENTRYPOINT [ "./setlxplay" ]
+ENTRYPOINT [ "./setlxplay","-mode","prod"]
 EXPOSE 8080
