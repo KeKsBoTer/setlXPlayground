@@ -3,7 +3,7 @@ WORKDIR /server/
 
 COPY go.mod .
 COPY go.sum .
-COPY app .
+COPY app app
 
 RUN go build -a -o setlxplay ./app
 
