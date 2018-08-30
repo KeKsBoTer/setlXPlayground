@@ -1,9 +1,11 @@
-FROM golang as builder
+FROM golang:1.11 as builder
 WORKDIR /server/
-COPY app .
 
-RUN go get github.com/gorilla/mux
-RUN go build -a -o setlxplay .
+COPY go.mod .
+COPY go.sum .
+COPY app app
+
+RUN CGO_ENABLED=0 GOOS=linux go build -ldflags="-s -w" -a -installsuffix nocgo -o setlxplay ./app
 
 
 # FROM gcr.io/distroless/java
