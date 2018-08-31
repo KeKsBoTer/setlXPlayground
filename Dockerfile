@@ -1,11 +1,9 @@
 FROM golang:1.11 as builder
 WORKDIR /server/
 
-COPY go.mod .
-COPY go.sum .
-COPY app app
+COPY . .
 
-RUN CGO_ENABLED=0 GOOS=linux go build -ldflags="-s -w" -a -installsuffix nocgo -o setlxplay ./app
+RUN CGO_ENABLED=0 GOOS=linux go build -ldflags="-s -w" -a -installsuffix nocgo -o setlxplay .
 
 
 # FROM gcr.io/distroless/java
