@@ -1,9 +1,13 @@
 var linesContainer = document.getElementById("lines")
 var runButton = document.getElementById("run")
+var snippetUrl = document.getElementById("snippetUrl")
 var codeEditor;
 
 
 window.onload = function () {
+    if (isSharedCodePage())
+        updateSnippitUrl(true)
+
     let codeArea = document.getElementById("code")
     codeEditor = CodeMirror.fromTextArea(codeArea, {
         lineNumbers: true,
@@ -11,6 +15,14 @@ window.onload = function () {
         indentUnit: 4,
         mode: "setlx"
     })
+    codeEditor.on("change", function (e) {
+        window.history.replaceState(undefined, undefined, "/")
+        updateSnippitUrl(false)
+    })
+}
+
+function isSharedCodePage() {
+    return !!window.location.pathname.match(/^\/c\/[a-zA-Z0-9]+$/)
 }
 
 function run() {
@@ -43,4 +55,37 @@ function run() {
     }).catch((e) => {
         out.innerHTML = `<span class="stderr">${e}</span>`
     })
+}
+
+function share() {
+    // check if user is on shared code page
+    if (isSharedCodePage())
+        return
+
+    let code = codeEditor.getValue()
+    fetch("/share", {
+        method: "POST",
+        headers: {
+            "Content-Type": "text/plain; charset=utf-8",
+        },
+        body: code
+    }).then(async (response) => {
+        if (response.ok)
+            return response.json()
+        let errorMsg = await response.text()
+        throw errorMsg ? errorMsg : response.statusText
+    }).then((response) => {
+        // redirect to code page
+        window.history.replaceState(undefined, undefined, "/c/" + response.id)
+        updateSnippitUrl(true)
+    }).catch(e => {
+        console.log(e)
+        alert("something went wrong")
+    })
+}
+
+function updateSnippitUrl(show) {
+    snippetUrl.type = show ? "url" : "hidden"
+    snippetUrl.value = show ? window.location.href : ""
+    snippetUrl.setSelectionRange(0, snippetUrl.value.length)
 }
