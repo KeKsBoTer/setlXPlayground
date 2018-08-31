@@ -17,6 +17,15 @@ button {
     font-family: inherit;
 }
 
+#snippetUrl{
+    font-size: 18px;
+    display: inline-block;
+    border-radius: 5px;
+    border: 1px solid rgb(55, 85, 126);
+    width: 280px;
+    vertical-align: sub;
+}
+
 button:focus {
     outline-color: white;
 }

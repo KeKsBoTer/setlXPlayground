@@ -20,6 +20,7 @@
             <buttongroup>
                 <button onclick="run()" id="run">Run</button>
                 <button onclick="share()" id="run">Share</button>
+                <input type="hidden" id="snippetUrl"/>
             </buttongroup>
         </left>
         <right>
@@ -28,7 +29,7 @@
     </header>
     <main>
         <editor>
-            <textarea id="code" autocorrect="off" autocomplete="off" autocapitalize="off" spellcheck="false" wrap="off">print("Hello setlX");</textarea>
+            <textarea id="code" autocorrect="off" autocomplete="off" autocapitalize="off" spellcheck="false" wrap="off">{{.}}</textarea>
         </editor>
         <pre class="output" id="output">
 
