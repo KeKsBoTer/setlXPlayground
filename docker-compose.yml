@@ -6,7 +6,5 @@ services:
     - "8004:80"
     volumes:
     - setlxCodeStorage:/root/db
-  redis:
-    image: redis
 volumes:
   setlxCodeStorage: {}
