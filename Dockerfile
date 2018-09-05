@@ -1,6 +1,8 @@
 FROM golang:1.11 as builder
 WORKDIR /server/
 
+RUN go get
+
 COPY . .
 
 RUN CGO_ENABLED=0 GOOS=linux go build -ldflags="-s -w" -a -installsuffix nocgo -o setlxplay .
