@@ -102,5 +102,8 @@ func runAsFile(code string) ([]Message, error) {
 			Delay: 0,
 		})
 	}
+	if len(messages) == 0 {
+		messages = append(messages, Message{})
+	}
 	return messages, nil
 }

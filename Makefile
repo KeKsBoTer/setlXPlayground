@@ -5,7 +5,7 @@ package = .
 all: build run
 
 run:
-	$(name).exe -mode="dev"
+	./$(name).exe -port="8080" -mode="dev"
 
 build:
 	GO111MODULE=on go build -o $(name).exe $(package)

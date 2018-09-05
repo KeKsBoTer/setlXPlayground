@@ -19,11 +19,11 @@ var mode string
 
 func main() {
 	flag.StringVar(&mode, "mode", "prod", "run mode, dev or prod")
-	datbaseFolder := *flag.String("database", "db", "folder of the database")
-	port := *flag.Int("port", 80, "port which the webserver listens on")
+	datbaseFolder := flag.String("database", "db", "folder of the database")
+	port := flag.Int("port", 80, "port which the webserver listens on")
 	flag.Parse()
 
-	log.Printf("Starting setlX playground server in %s mode on port %d\n", mode, port)
+	log.Printf("Starting setlX playground server in %s mode on port %d\n", mode, *port)
 
 	// load page html template
 	template, err := tmpl.ParseFiles("www/index.html")
@@ -33,7 +33,7 @@ func main() {
 	}
 
 	// open database connection
-	db, err := Open(datbaseFolder)
+	db, err := Open(*datbaseFolder)
 	if err != nil {
 		log.Fatalln(err)
 		return
@@ -131,5 +131,5 @@ func main() {
 	fileHandler := http.StripPrefix("/static/", http.FileServer(http.Dir("www/static")))
 	router.PathPrefix("/static/").Handler(fileHandler)
 
-	http.ListenAndServe(":"+strconv.Itoa(port), router)
+	http.ListenAndServe(":"+strconv.Itoa(*port), router)
 }
