@@ -119,14 +119,6 @@ func main() {
 		template.Execute(w, code)
 	})
 
-	// create dir for code files
-	if _, err := os.Stat("tmp"); os.IsNotExist(err) {
-		if err := os.Mkdir("tmp", os.ModeTemporary); err != nil {
-			log.Fatalln(err)
-			return
-		}
-	}
-
 	// serve static files
 	fileHandler := http.StripPrefix("/static/", http.FileServer(http.Dir("www/static")))
 	router.PathPrefix("/static/").Handler(fileHandler)

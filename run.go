@@ -4,10 +4,7 @@ import (
 	"context"
 	"encoding/json"
 	"errors"
-	"io/ioutil"
-	"os"
 	"os/exec"
-	"strings"
 	"sync"
 	"time"
 )
@@ -26,7 +23,7 @@ func run(code []byte) ([]byte, error) {
 	if len(code) == 0 {
 		return nil, errors.New("Empty code")
 	}
-	out, err := runAsFile(string(code))
+	out, err := runCode(string(code))
 	if err != nil {
 		return nil, err
 	}
@@ -60,26 +57,13 @@ func (w *writer) Write(bytes []byte) (int, error) {
 
 const maxExecutionTime = 3 * time.Minute
 
-// Problem: does not run multiline code (setlx interpreters fault)
-func runAsString(code string) ([]byte, error) {
-	cmd := exec.Command("setlx", "-x", strings.Replace(code, "\n", "", -1))
-	return cmd.CombinedOutput()
-}
-
 // Workaround
 // create temp file, run it and then delte it
-func runAsFile(code string) ([]Message, error) {
-	f, err := ioutil.TempFile("tmp", "code")
-	if err != nil {
-		return nil, err
-	}
-	defer os.Remove(f.Name())
-	defer f.Close()
-	f.WriteString(code)
-
+func runCode(code string) ([]Message, error) {
+	code += "\n return 0;"
 	ctx, cancel := context.WithTimeout(context.Background(), maxExecutionTime)
 	defer cancel()
-	cmd := exec.CommandContext(ctx, "setlX", f.Name())
+	cmd := exec.CommandContext(ctx, "java", "-cp", "setlx/setlX.jar", "org.randoom.setlx.pc.ui.SetlX", "-x", code)
 
 	var mu sync.Mutex
 	var messages []Message
