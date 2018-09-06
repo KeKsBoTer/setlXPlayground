@@ -6,5 +6,10 @@ services:
     - "8004:80"
     volumes:
     - setlxCodeStorage:/root/db
+    deploy:
+      resources:
+        limits:
+          cpus: '0.50'
+          memory: 500M
 volumes:
   setlxCodeStorage: {}
