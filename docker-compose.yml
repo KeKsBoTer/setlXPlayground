@@ -2,6 +2,7 @@ version: '3'
 services:
   setlxplay:
     build: .
+    restart: always
     ports:
     - "8004:80"
     volumes:
