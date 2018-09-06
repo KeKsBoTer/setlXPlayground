@@ -2,6 +2,7 @@ var linesContainer = document.getElementById("lines")
 var runButton = document.getElementById("run")
 var snippetUrl = document.getElementById("snippetUrl")
 var codeEditor;
+var executing = false;
 
 
 window.onload = function () {
@@ -16,14 +17,21 @@ window.onload = function () {
         mode: "setlx"
     })
     codeEditor.on("change", function (e) {
-        window.history.replaceState(undefined, undefined, "/")
-        updateSnippitUrl(false)
+        if (isSharedCodePage()) {
+            window.history.replaceState(undefined, undefined, "/")
+            updateSnippitUrl(false)
+        }
     })
 }
 
 function isSharedCodePage() {
     return !!window.location.pathname.match(/^\/c\/[a-zA-Z0-9]+$/)
 }
+
+function sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+}
+
 
 function run() {
     let code = codeEditor.getValue()
@@ -44,12 +52,13 @@ function run() {
             return response.json()
         let errorMsg = await response.text()
         throw errorMsg ? errorMsg : response.statusText
-    }).then((json) => {
+    }).then(async (json) => {
         out.innerHTML = ""
+        let log = ""
         for (var msg of json.Events) {
-            out.innerHTML += `<span class="${msg.Kind}">${msg.Text}</span>`
-            out.scrollTo(0, out.scrollHeight)
+            log += `<span class="${msg.Kind}">${msg.Text}</span>`
         }
+        out.innerHTML += log;
         out.innerHTML += `<span class="info">Program exited.</span>`
         out.scrollTo(0, out.scrollHeight)
     }).catch((e) => {
