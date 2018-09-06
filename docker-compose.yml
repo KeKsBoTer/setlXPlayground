@@ -1,4 +1,4 @@
-version: '3'
+version: '2.2'
 services:
   setlxplay:
     build: .
@@ -7,13 +7,10 @@ services:
     - "8004:80"
     volumes:
     - setlxCodeStorage:/root/db
-    deploy:
-      resources:
-        limits:
-          cpus: '0.50'
-          memory: 500M
-        reservations:
-          cpus: '0.0001'
-          memory: 20M
+    cpu_percent: 50
+    cpu_shares: 50
+    mem_limit: 250m
+    domainname: setlx.dotcookie.me
+    hostname: setlxplayground
 volumes:
   setlxCodeStorage: {}
