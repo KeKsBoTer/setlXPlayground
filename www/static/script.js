@@ -34,12 +34,15 @@ function sleep(ms) {
 
 
 function run() {
+    if (executing)
+        return
     let code = codeEditor.getValue()
     // check if code is empty
     if (!code)
         return
 
     let out = document.getElementById("output")
+    executing = true
     out.innerHTML = "<span class='info'>" + "Waiting for remote server..." + "</span>"
     fetch("/run", {
         method: "POST",
@@ -48,6 +51,7 @@ function run() {
         },
         body: code
     }).then(async (response) => {
+        executing = false
         if (response.ok)
             return response.json()
         let errorMsg = await response.text()
@@ -62,6 +66,7 @@ function run() {
         out.innerHTML += `<span class="info">Program exited.</span>`
         out.scrollTo(0, out.scrollHeight)
     }).catch((e) => {
+        executing = false
         out.innerHTML = `<span class="stderr">${e}</span>`
     })
 }
