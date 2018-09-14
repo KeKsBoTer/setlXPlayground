@@ -1,0 +1,8 @@
+
+grant {
+        permission java.lang.RuntimePermission "accessDeclaredMembers";
+        permission java.lang.RuntimePermission "getenv.SETLX_LIBRARY_PATH";
+        permission java.util.PropertyPermission "sun.arch.data.model", "read";
+        permission java.util.PropertyPermission "line.separator", "read";
+        permission java.util.PropertyPermission "os.name", "read";
+};

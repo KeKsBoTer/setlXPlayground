@@ -6,6 +6,7 @@ import (
 	"errors"
 	"fmt"
 	"os/exec"
+	"strings"
 	"sync"
 	"time"
 )
@@ -67,7 +68,7 @@ func runCode(code string) ([]Message, error) {
 	code += "\n return 0;"
 	ctx, cancel := context.WithTimeout(context.Background(), maxExecutionTime)
 	defer cancel()
-	cmd := exec.CommandContext(ctx, "java", "-cp", "setlx/setlX.jar", "org.randoom.setlx.pc.ui.SetlX", "-x", code)
+	cmd := exec.CommandContext(ctx, "java", "-Djava.security.manager", "-Djava.security.policy=java.policy", "-cp", "setlx/setlX.jar", "org.randoom.setlx.pc.ui.SetlX", "-x", code)
 
 	var mu sync.Mutex
 	var messages []Message
@@ -97,6 +98,11 @@ func runCode(code string) ([]Message, error) {
 	if len(messages) == 0 {
 		messages = append(messages, Message{})
 	} else {
+		last := &messages[len(messages)-1]
+		if strings.HasPrefix(last.Text, "Internal error.") {
+			last.Text = "Internal error (did you try to read or write from the disk?)\n"
+		}
+
 		duration := time.Since(startTime) / time.Millisecond
 		messages = append(messages, Message{
 			Text:  fmt.Sprintf("----------------------\nFinished in %.2f seconds\n", float64(duration)/1000),

@@ -6,17 +6,18 @@ COPY go.sum go.sum
 
 RUN go mod download
 
-COPY . .
+COPY  main.go main.go
+COPY  run.go run.go
+COPY  database.go database.go
 
 RUN CGO_ENABLED=0 GOOS=linux go build -ldflags="-s -w" -a -installsuffix nocgo -o setlxplay .
 
 
-# FROM gcr.io/distroless/java
-FROM anapsix/alpine-java
+FROM gcr.io/distroless/java
 WORKDIR /root/
 COPY setlx setlx
 COPY www www
+COPY java.policy java.policy
 COPY --from=builder /server/setlxplay .
-ENV PATH "$PATH:/root/setlx"
-ENTRYPOINT [ "./setlxplay","-mode","prod"]
+ENTRYPOINT [ "./setlxplay","-mode","prod","-database","db"]
 EXPOSE 8080
