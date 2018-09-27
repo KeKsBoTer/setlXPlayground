@@ -64,7 +64,8 @@ function run() {
         }
         out.innerHTML += log;
         out.innerHTML += `<span class="info">Program exited.</span>`
-        out.scrollTo(0, out.scrollHeight)
+        out.scrollY =  out.scrollHeight
+        out.scrollTop =  out.scrollHeight 
     }).catch((e) => {
         executing = false
         out.innerHTML = `<span class="stderr">${e}</span>`
