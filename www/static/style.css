@@ -17,7 +17,7 @@ button {
     font-family: inherit;
 }
 
-#snippetUrl{
+#snippetUrl {
     font-size: 18px;
     display: inline-block;
     border-radius: 5px;
@@ -41,17 +41,37 @@ header {
     flex-wrap: wrap;
     justify-content: space-between;
     align-items: center;
-    height: 50px;
+    /*height: 50px;*/
     width: 100%;
     padding: 10px;
     background: rgb(192, 219, 255);
     border-bottom: 1px solid #ddd;
 }
 
+@media (max-width:420px) {
+    header {
+        font-size: 18px;
+    }
+
+    header>left {
+        flex-direction: column;
+        align-items: flex-start !important;
+        margin-bottom: 5px;
+    }
+    header>left buttongroup, header>right buttongroup{
+        margin: 0;
+    }
+}
+
+a{
+    text-decoration: none;
+}
+
 header h1 {
     font-family: Arial, sans-serif;
     font-weight: normal;
     font-size: 24px;
+    min-width: 120px;
     margin: 0;
     padding: 0;
     margin-right: 10px;
@@ -130,4 +150,25 @@ main>.output {
 
 .output span.stderr {
     color: red;
+}
+
+.fork-me {
+    position: absolute;
+    top: 0;
+    right: 0;
+    border: 0;
+    z-index: 100;
+    transform: scale(.8);
+    transform-origin: top right;
+}
+
+button.github:before{
+    content: "";
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    background-size: contain;
+    transform: translateY(2px);
+    margin-right: 3px;
+    background-image: url("/static/img/github.svg")
 }
