@@ -20,4 +20,4 @@ COPY www www
 COPY java.policy java.policy
 COPY --from=builder /server/setlxplay .
 ENTRYPOINT [ "./setlxplay","-mode","prod","-database","db"]
-EXPOSE 8080
+EXPOSE 80
