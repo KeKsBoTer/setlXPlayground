@@ -59,7 +59,7 @@ function run() {
     }).then(async (json) => {
         out.innerHTML = ""
         let log = ""
-        for (var msg of json.Events) {
+        for (var msg of json.events) {
             log += `<span class="${msg.Kind}">${msg.Text}</span>`
         }
         out.innerHTML += log;

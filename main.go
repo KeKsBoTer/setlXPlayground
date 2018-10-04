@@ -12,17 +12,16 @@ import (
 
 	"github.com/dgraph-io/badger"
 	"github.com/gorilla/mux"
+	"github.com/xlab/closer"
 )
 
-var mode string
-
 func main() {
-	flag.StringVar(&mode, "mode", "prod", "run mode, dev or prod")
+	mode := flag.String("mode", "prod", "run mode, dev or prod")
 	datbaseFolder := flag.String("database", "db", "folder of the database")
 	port := flag.Int("port", 80, "port which the webserver listens on")
 	flag.Parse()
 
-	log.Printf("Starting setlX playground server in %s mode on port %d\n", mode, *port)
+	log.Printf("Starting setlX playground server in %s mode on port %d\n", *mode, *port)
 
 	// load page html template
 	template, err := tmpl.ParseFiles("www/index.html")
@@ -37,14 +36,12 @@ func main() {
 		log.Fatalln(err)
 		return
 	}
-	defer db.Close()
-
 	router := mux.NewRouter()
 	router.StrictSlash(true)
 
 	// index page handler
 	router.Path("/").Methods("GET").HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		if mode == "dev" {
+		if *mode == "dev" {
 			template, err = tmpl.ParseFiles("www/index.html")
 			if err != nil {
 				log.Fatalln(err)
@@ -122,5 +119,25 @@ func main() {
 	fileHandler := http.StripPrefix("/static/", http.FileServer(http.Dir("www/static")))
 	router.PathPrefix("/static/").Handler(fileHandler)
 
-	http.ListenAndServe(":"+strconv.Itoa(*port), router)
+	server := &http.Server{Addr: ":" + strconv.Itoa(*port), Handler: router}
+
+	closer.Bind(func() {
+		if err := server.Close(); err != nil {
+			log.Println("cannot close webserver:", err)
+		} else {
+			log.Println("closed webserver successfully")
+		}
+	})
+	closer.Bind(func() {
+		if err := db.Close(); err != nil {
+			log.Println("Cannot close database connection:", err)
+		} else {
+			log.Println("closed database successfully")
+		}
+	})
+
+	err = server.ListenAndServe()
+	if err != nil && err != http.ErrServerClosed {
+		log.Println("webserver failed:", err)
+	}
 }

@@ -11,14 +11,24 @@ import (
 	"time"
 )
 
+// Message contains a std-output
+// It holds the text and to which output is was printed
 type Message struct {
-	Text  string
-	Kind  string
+	// Text is the message as string
+	Text string
+
+	// Kind is the channel the message was printed to
+	// "stdout" or "stderr"
+	Kind string
+
+	// Delay is the time elapsed since the last message
 	Delay int
 }
 
+// Response contains a list of events.
+// Every event is a message.
 type Response struct {
-	Events []Message
+	Events []Message `json:"events"`
 }
 
 func run(code []byte) ([]byte, error) {
