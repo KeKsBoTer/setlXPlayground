@@ -6,14 +6,16 @@ import (
 	"github.com/dgraph-io/badger"
 )
 
+// CodeStorage is a connection to the database that holds all codesnippets
 type CodeStorage struct {
 	*badger.DB
 }
 
+// Open establishes a new database connection
+// The folder is the location of the database files
 func Open(folder string) (*CodeStorage, error) {
 	opts := badger.DefaultOptions
 	opts.Dir = folder
-	opts.Truncate = true
 	opts.ValueDir = folder
 	db, err := badger.Open(opts)
 	if err != nil {
@@ -22,6 +24,7 @@ func Open(folder string) (*CodeStorage, error) {
 	return &CodeStorage{db}, nil
 }
 
+// GetCode returns code snippet for a given ID
 func (s *CodeStorage) GetCode(id string) (string, error) {
 	txn := s.NewTransaction(false)
 	defer txn.Commit(nil)
@@ -33,6 +36,7 @@ func (s *CodeStorage) GetCode(id string) (string, error) {
 	return string(code), err
 }
 
+// SaveCode stores a code snippet and returns its ID
 func (s *CodeStorage) SaveCode(code []byte) (string, error) {
 	txn := s.NewTransaction(true)
 	defer txn.Commit(nil)
