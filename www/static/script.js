@@ -1,5 +1,6 @@
 var linesContainer = document.getElementById("lines")
 var runButton = document.getElementById("run")
+var header = document.getElementsByTagName("header")[0]
 var snippetUrl = document.getElementById("snippetUrl")
 var codeEditor;
 var executing = false;
@@ -26,7 +27,6 @@ window.onload = function () {
 
 window.onresize = function () {
     fullHeight(codeEditor.display.wrapper)
-    console.log("test")
 }
 
 function isSharedCodePage() {
@@ -105,6 +105,7 @@ function share() {
 }
 
 function updateSnippitUrl(show) {
+    header.classList[show ? "add" : "remove"]("expanded")
     snippetUrl.type = show ? "url" : "hidden"
     snippetUrl.value = show ? window.location.href : ""
     snippetUrl.setSelectionRange(0, snippetUrl.value.length)
