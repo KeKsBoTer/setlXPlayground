@@ -5,11 +5,13 @@ body {
     width: 100%;
     height: 100%;
     position: fixed;
+    display: flex;
+    flex-direction: column;
 }
 
 button {
     background: rgb(113, 175, 255);
-    color: white;
+    color: black;
     border: none;
     border-radius: 5px;
     padding: 5px 7px;
@@ -24,6 +26,7 @@ button {
     border: 1px solid rgb(55, 85, 126);
     width: 280px;
     vertical-align: sub;
+    margin:0 10px;
 }
 
 button:focus {
@@ -35,12 +38,13 @@ button:active {
 }
 
 header {
+    position: relative;
     box-sizing: border-box;
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
-    justify-content: space-between;
-    align-items: center;
+    justify-content: flex-start;
+    align-items: flex-end;
     /*height: 50px;*/
     width: 100%;
     padding: 10px;
@@ -48,61 +52,107 @@ header {
     border-bottom: 1px solid #ddd;
 }
 
-@media (max-width:420px) {
-    header {
-        font-size: 18px;
-    }
+toolbar{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin-top: 5px;
+    flex-grow: 1;
+}
 
-    header>left {
-        flex-direction: column;
-        align-items: flex-start !important;
-        margin-bottom: 5px;
+header h1 {
+    font-family: 'Courier New', Courier, monospace, sans-serif;
+    font-weight: normal;
+    font-size: 24px;
+    min-width: 120px;
+    color: black;
+    margin: 0;
+    padding: 0;
+    margin-right: 10px;
+    text-transform: uppercase;
+}
+
+header h1.mobile {
+    display: none;
+    margin-bottom: 5px;
+    width: 100%;
+}
+
+#run:before {
+    background-image: url("/static/img/play.svg")
+}
+#share:before {
+    background-image: url("/static/img/share.svg")
+}
+
+@media (max-width:710px) {
+    header{
+        padding-bottom: 40px;
     }
-    header>left buttongroup, header>right buttongroup{
+    #snippetUrl{
+        position: absolute;
+        bottom: 7px;
+        left: 10px;
+        width: calc(100% - 20px);
+        box-sizing: border-box;
         margin: 0;
     }
 }
 
-a{
+@media (max-width:415px) {
+    header button {
+        font-size: 0;
+        font-weight: bold;
+        width: 30px;
+        height: 30px;
+        overflow: hidden;
+    }
+
+    header button.imprint {
+        font-size: 14px;
+        width: auto;
+        vertical-align: bottom;
+    }
+
+    header button.github:before {
+        font-size: 16px;
+        font-weight: bold;
+    }
+}
+
+a {
     text-decoration: none;
 }
 
-header h1 {
-    font-family: Arial, sans-serif;
-    font-weight: normal;
-    font-size: 24px;
-    min-width: 120px;
-    margin: 0;
-    padding: 0;
-    margin-right: 10px;
-}
-
-header>* {
-    margin: 0 5px;
-}
-
-header>left,
-right {
+toolbar>left{
     display: flex;
-    align-items: center;
+    flex-direction: column;
+    align-items: flex-start;
 }
 
-header buttongroup {
-    margin: 0 10px;
+toolbar>right {
+    align-items: flex-end;
+}
+
+toolbar buttongroup {
+    margin: 0;
 }
 
 main {
     width: 100%;
-    height: calc(100% - 50px);
+    flex-grow: 1;
+    
+    display: flex;
+    flex-direction: column; 
 }
 
 main>editor {
+    flex-grow: 1;
     font-family: Menlo, monospace;
     width: 100%;
     height: 75%;
     box-sizing: border-box;
     overflow: hidden;
-    display: flex;
     font-size: 11pt;
 }
 
@@ -127,7 +177,7 @@ lines div {
 
 main>.output {
     height: 25%;
-    min-height: 50px;
+    min-height: 100px;
     max-height: 200px;
     padding: 10px;
     margin: 0;
@@ -162,13 +212,18 @@ main>.output {
     transform-origin: top right;
 }
 
-button.github:before{
+button.icon:before {
     content: "";
     display: inline-block;
     width: 16px;
-    height: 16px;
+    height: 20px;
     background-size: contain;
     transform: translateY(2px);
     margin-right: 3px;
-    background-image: url("/static/img/github.svg")
+    background-repeat: no-repeat;
+    vertical-align: middle;
+}
+
+button.github:before {
+    background-image: url("/static/img/github.svg");
 }

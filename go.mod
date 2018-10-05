@@ -9,4 +9,5 @@ require (
 	github.com/pkg/errors v0.8.0 // indirect
 	github.com/xlab/closer v0.0.0-20161113214103-89cd22812c4f
 	golang.org/x/net v0.0.0-20181004194319-68fc911561ed // indirect
+	golang.org/x/sys v0.0.0-20181004145325-8469e314837c // indirect
 )

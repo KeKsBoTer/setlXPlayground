@@ -4,7 +4,6 @@ var snippetUrl = document.getElementById("snippetUrl")
 var codeEditor;
 var executing = false;
 
-
 window.onload = function () {
     if (isSharedCodePage())
         updateSnippitUrl(true)
@@ -22,6 +21,12 @@ window.onload = function () {
             updateSnippitUrl(false)
         }
     })
+    window.onresize()
+}
+
+window.onresize = function () {
+    fullHeight(codeEditor.display.wrapper)
+    console.log("test")
 }
 
 function isSharedCodePage() {
@@ -64,8 +69,8 @@ function run() {
         }
         out.innerHTML += log;
         out.innerHTML += `<span class="info">Program exited.</span>`
-        out.scrollY =  out.scrollHeight
-        out.scrollTop =  out.scrollHeight 
+        out.scrollY = out.scrollHeight
+        out.scrollTop = out.scrollHeight
     }).catch((e) => {
         executing = false
         out.innerHTML = `<span class="stderr">${e}</span>`
@@ -103,4 +108,9 @@ function updateSnippitUrl(show) {
     snippetUrl.type = show ? "url" : "hidden"
     snippetUrl.value = show ? window.location.href : ""
     snippetUrl.setSelectionRange(0, snippetUrl.value.length)
+}
+
+function fullHeight(elm) {
+    var height = elm.parentElement.clientHeight
+    elm.style.height = height + "px"
 }
