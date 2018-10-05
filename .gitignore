@@ -1,4 +1,6 @@
-vscode/**
+.vscode/**
 tmp/**
 setlxPlayground*
 db/**
+
+**/.DS_Store
