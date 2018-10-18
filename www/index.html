@@ -21,22 +21,36 @@
     <script src="/static/mode/setlx/setlx.js"></script>
     <link rel="stylesheet" href="/static/lib/codemirror.min.css">
     <link rel="stylesheet" type="text/css" href="/static/style.css">
+    <script>var embeded = {{.Embeded}}</script>
 </head>
 
-<body>
+<body {{ if .Embeded }}class="embeded"{{end}}>
     <!--<a href="https://github.com/KeKsBoTer/setlxPlayground"><img class="fork-me" src="/static/forkme_right_darkblue_121621.png"
             alt="Fork me on GitHub"></a>-->
     <header>
-        <h1>The setlX Playground</h1>
+        <h1>
+        {{ if not .Embeded }}
+        The setlX Playground
+        {{ else }}
+        setlX
+        {{ end }}
+        </h1>
         <toolbar>
             <left>
                 <buttongroup>
                     <button onclick="run()" id="run" class="icon">Run</button>
+                    {{ if not .Embeded }}
                     <button onclick="share()" id="share" class="icon">Share</button>
                     <input type="hidden" id="snippetUrl" />
+                    {{ else }}
+                    <a href="{{.URL}}" target="_blank">
+                    <button class="icon" id="edit" >Edit</button>
+                    </a>
+                    {{ end }}
                 </buttongroup>
             </left>
             <right>
+            {{ if not .Embeded }}
                 <buttongroup>
                     <a href="https://github.com/KeKsBoTer/setlxPlayground">
                         <button class="github icon">Sources</button>
@@ -45,16 +59,15 @@
                         <button class="imprint">Imprint</button>
                     </a>
                 </buttongroup>
+            {{ end }}
             </right>
         </toolbar>
     </header>
     <main>
         <editor>
-            <textarea id="code" autocorrect="off" autocomplete="off" autocapitalize="off" spellcheck="false" wrap="off">{{.}}</textarea>
+            <textarea id="code" autocorrect="off" autocomplete="off" autocapitalize="off" spellcheck="false" wrap="off">{{.Code}}</textarea>
         </editor>
-        <pre class="output" id="output">
-
-        </pre>
+        <pre class="output" id="output"></pre>
     </main>
     <script src="/static/script.js"></script>
 </body>

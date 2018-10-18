@@ -15,6 +15,13 @@ import (
 	"github.com/xlab/closer"
 )
 
+// CodePageData is data for index page
+type CodePageData struct {
+	Code    string
+	Embeded bool
+	URL     string
+}
+
 func main() {
 	mode := flag.String("mode", "prod", "run mode, dev or prod")
 	datbaseFolder := flag.String("database", "db", "folder of the database")
@@ -48,7 +55,15 @@ func main() {
 				return
 			}
 		}
-		template.Execute(w, "print(\"Hello setlX\");")
+		// check if page is embeded
+		embeded, _ := strconv.ParseBool(r.URL.Query().Get("embeded"))
+		err = template.Execute(w, CodePageData{
+			Code:    "print(\"Hello setlX\");",
+			Embeded: embeded,
+		})
+		if err != nil {
+			log.Println("error executing template: ", err)
+		}
 	})
 
 	// run code api
@@ -112,7 +127,18 @@ func main() {
 			http.Error(w, "internal server error", http.StatusInternalServerError)
 			return
 		}
-		template.Execute(w, code)
+		embeded, _ := strconv.ParseBool(r.URL.Query().Get("embeded"))
+		query := r.URL.Query()
+		query.Del("embeded")
+		r.URL.RawQuery = query.Encode()
+		err = template.Execute(w, CodePageData{
+			Code:    code,
+			Embeded: embeded,
+			URL:     r.URL.String(),
+		})
+		if err != nil {
+			log.Println("error executing template: ", err)
+		}
 	})
 
 	// serve static files
