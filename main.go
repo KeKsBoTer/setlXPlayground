@@ -20,6 +20,7 @@ type CodePageData struct {
 	Code    string
 	Embeded bool
 	URL     string
+	Host    string
 }
 
 func main() {
@@ -60,6 +61,7 @@ func main() {
 		err = template.Execute(w, CodePageData{
 			Code:    "print(\"Hello setlX\");",
 			Embeded: embeded,
+			Host:    r.URL.Host,
 		})
 		if err != nil {
 			log.Println("error executing template: ", err)
@@ -135,6 +137,7 @@ func main() {
 			Code:    code,
 			Embeded: embeded,
 			URL:     r.URL.String(),
+			Host:    r.URL.Host,
 		})
 		if err != nil {
 			log.Println("error executing template: ", err)
