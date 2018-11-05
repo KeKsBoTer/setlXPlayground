@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
+	"html"
 	"os/exec"
 	"strings"
 	"sync"
@@ -63,7 +64,7 @@ func (w *writer) Write(bytes []byte) (int, error) {
 	defer w.mu.Unlock()
 	newMessage := Message{
 		Kind:  w.source,
-		Text:  string(bytes),
+		Text:  html.EscapeString(string(bytes)),
 		Delay: int(time.Since(w.start) / time.Millisecond),
 	}
 	*w.writes = append(*w.writes, newMessage)
@@ -109,7 +110,7 @@ func runCode(code string) ([]Message, error) {
 		messages = append(messages, Message{})
 	} else {
 		last := &messages[len(messages)-1]
-		if strings.HasPrefix(last.Text, "Internal error.") {
+		if strings.HasPrefix(string(last.Text), "Internal error.") {
 			last.Text = "Internal error (did you try to read or write from the disk?)\n"
 		}
 
