@@ -1,8 +1,9 @@
-
 <p align="center"><img src="docs/title.png" width="269">
 </p>
+
 setlX Playground is a webapp that allows you to write and execute setlX code in the browser.
 You can run it yourself or use the one hosted on my webserver: [Demo](https://setlx.dotcookie.me).
+
 ![Demo](docs/demo.gif)
 
 # Features
