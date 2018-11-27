@@ -1,5 +1,4 @@
-<p align="center"><img src="docs/title.png" width="269">
-</p>
+<p align="center"><img src="docs/title.png" width="269"></p>
 
 [![Build Status](https://travis-ci.org/KeKsBoTer/setlXPlayground.svg?branch=master)](https://travis-ci.org/KeKsBoTer/setlXPlayground)
 
