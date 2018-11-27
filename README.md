@@ -49,7 +49,7 @@ $ $env:GO111MODULE="on"
 $ go build -o setlxplayground.exe .
 ```
 
-No the playground can be started with
+Now the playground can be started with
 ```bash
 # (on Windows use setlxplayground.exe)
 ./setlxplayground -host 8080
