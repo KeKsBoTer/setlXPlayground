@@ -35,6 +35,17 @@ Or just use docker-compose
 $ docker-compose up
 ```
 
+## Use Release
+
+You can download the latest release of the playground [here](https://github.com/KeKsBoTer/setlXPlayground/releases).
+Keep in mind that releases are usually behind the master branch.
+Once you downloaded a release, started it with
+```bash
+# (on Windows use setlxplayground.exe)
+./setlxplayground -host 8080
+```
+To get a full description for all flags run `setlxplayground -help`
+
 ## Build it yourself
 First make sure that you have [go](https://golang.org) version 1.11 or higher installed.
 
