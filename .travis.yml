@@ -5,7 +5,7 @@ go:
 os:
   - linux
   - osx
-  - windows
+  # - windows
 
 dist: trusty
 sudo: false
@@ -19,7 +19,7 @@ script:
     else
       export binary_name="setlxplayground"
     fi
-  - env GO111MODULE=on go build -o target/release/${binary_name}
+  - env GO111MODULE=on go build -ldflags '-s -w' -o target/release/${binary_name}
   - env GO111MODULE=on go test
 
 before_deploy:
