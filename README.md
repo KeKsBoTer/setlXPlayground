@@ -42,11 +42,11 @@ Then you can build the application:
 
 **Linux/macOS**
 ```
-$ GO11MODULE=on go build -o setlxplayground .
+$ GO111MODULE=on go build -o setlxplayground .
 ```
 **Windows** (PowerShell)
 ```powershell
-$ $env:GO11MODULE="on"
+$ $env:GO111MODULE="on"
 $ go build -o setlxplayground.exe .
 ```
 
