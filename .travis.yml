@@ -19,13 +19,13 @@ script:
     else
       export binary_name="setlxplayground"
     fi
-  - env GO111MODULE=on go build -o target/release/$binary_name
+  - env GO111MODULE=on go build -o target/release/${binary_name}
   - env GO111MODULE=on go test
 
 before_deploy:
-  - gzip -c target/release/setlxplayground > target/release/setlxPlayground_${TRAVIS_OS_NAME}_x64.gz
+  - tar cfv target/release/setlxPlayground_${TRAVIS_OS_NAME}_x64.tar target/release/${binary_name} www setlx
 deploy:
-  file: "target/release/setlxPlayground_${TRAVIS_OS_NAME}_x64.gz"
+  file: "target/release/setlxPlayground_${TRAVIS_OS_NAME}_x64.tar"
   provider: releases
   api_key: $GITHUB_OAUTH_TOKEN
   skip_cleanup: true
