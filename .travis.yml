@@ -4,6 +4,8 @@ go:
 
 os:
   - linux
+  - osx
+  - windows
 
 dist: trusty
 sudo: false
@@ -11,5 +13,21 @@ sudo: false
 install: true
 
 script:
-  - env GO111MODULE=on go build 
+  - |-
+    if [[ "$TRAVIS_OS_NAME" == "windows" ]]; then
+      export binary_name="setlxplayground.exe"
+    else
+      export binary_name="setlxplayground"
+    fi
+  - env GO111MODULE=on go build -o target/release/$binary_name
   - env GO111MODULE=on go test
+
+before_deploy:
+  - gzip -c target/release/setlxplayground > target/release/setlxPlayground_${TRAVIS_OS_NAME}_x64.gz
+deploy:
+  file: "target/release/setlxPlayground_${TRAVIS_OS_NAME}_x64.gz"
+  provider: releases
+  api_key: $GITHUB_OAUTH_TOKEN
+  skip_cleanup: true
+  on:
+    tags: true
