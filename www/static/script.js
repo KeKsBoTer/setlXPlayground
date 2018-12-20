@@ -6,7 +6,7 @@ var codeEditor;
 var executing = false;
 
 window.onload = function () {
-    if (isSharedCodePage() && !window.embeded)
+    if (isSharedCodePage() && !window.embedded)
         updateSnippitUrl(true)
 
     let codeArea = document.getElementById("code")
@@ -15,7 +15,7 @@ window.onload = function () {
         autofocus: true,
         indentUnit: 4,
         mode: "setlx",
-        readOnly: window.embeded
+        readOnly: window.embedded
     })
     codeEditor.on("change", function (e) {
         if (isSharedCodePage()) {

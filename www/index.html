@@ -26,15 +26,15 @@
     <script src="/static/mode/setlx/setlx.js"></script>
     <link rel="stylesheet" href="/static/lib/codemirror.min.css">
     <link rel="stylesheet" type="text/css" href="/static/style.css">
-    <script>var embeded = {{.Embeded}}</script>
+    <script>var embedded = {{.Embedded}}</script>
 </head>
 
-<body {{ if .Embeded }}class="embeded"{{end}}>
+<body {{ if .Embedded }}class="embedded"{{end}}>
     <!--<a href="https://github.com/KeKsBoTer/setlxPlayground"><img class="fork-me" src="/static/forkme_right_darkblue_121621.png"
             alt="Fork me on GitHub"></a>-->
     <header>
         <h1>
-        {{ if not .Embeded }}
+        {{ if not .Embedded }}
         The setlX Playground
         {{ else }}
         setlX
@@ -44,7 +44,7 @@
             <left>
                 <buttongroup>
                     <button onclick="run()" id="run" class="icon">Run</button>
-                    {{ if not .Embeded }}
+                    {{ if not .Embedded }}
                     <button onclick="share()" id="share" class="icon">Share</button>
                     <input type="hidden" id="snippetUrl" />
                     {{ else }}
@@ -55,7 +55,7 @@
                 </buttongroup>
             </left>
             <right>
-            {{ if not .Embeded }}
+            {{ if not .Embedded }}
                 <buttongroup>
                     <a href="https://github.com/KeKsBoTer/setlxPlayground">
                         <button class="github icon">Sources</button>

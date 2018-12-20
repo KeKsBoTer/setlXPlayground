@@ -1,4 +1,4 @@
-module github.com/KeKsBoTer/setlXPlayground
+module github.com/KeKsBoTer/setlxPlayground
 
 require (
 	github.com/AndreasBriese/bbloom v0.0.0-20180913140656-343706a395b7 // indirect
@@ -8,6 +8,5 @@ require (
 	github.com/gorilla/mux v1.6.2
 	github.com/pkg/errors v0.8.0 // indirect
 	github.com/xlab/closer v0.0.0-20161113214103-89cd22812c4f
-	golang.org/x/net v0.0.0-20181004194319-68fc911561ed // indirect
-	golang.org/x/sys v0.0.0-20181004145325-8469e314837c // indirect
+	golang.org/x/net v0.0.0-20181217023233-e147a9138326 // indirect
 )

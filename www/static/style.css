@@ -241,18 +241,18 @@ editor>textarea {
     border: none;
 }
 
-/* embeded code */
-body.embeded header {
+/* embedded code */
+body.embedded header {
     padding: 5px;
 }
 
-body.embeded header toolbar {
+body.embedded header toolbar {
     margin-top: 0;
     justify-content: flex-end;
 }
 
 @media (max-width:415px) {
-    body.embeded header button {
+    body.embedded header button {
         font-size: initial;
         font-weight: normal;
         height: 30px;

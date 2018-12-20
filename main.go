@@ -18,7 +18,7 @@ import (
 // CodePageData is data for index page
 type CodePageData struct {
 	Code    string
-	Embeded bool
+	Embedded bool
 	URL     string
 	Host    string
 }
@@ -56,11 +56,11 @@ func main() {
 				return
 			}
 		}
-		// check if page is embeded
-		embeded, _ := strconv.ParseBool(r.URL.Query().Get("embeded"))
+		// check if page is embedded
+		embedded, _ := strconv.ParseBool(r.URL.Query().Get("embedded"))
 		err = template.Execute(w, CodePageData{
 			Code:    "print(\"Hello setlX\");",
-			Embeded: embeded,
+			Embedded: embedded,
 			Host:    r.URL.Host,
 		})
 		if err != nil {
@@ -129,13 +129,13 @@ func main() {
 			http.Error(w, "internal server error", http.StatusInternalServerError)
 			return
 		}
-		embeded, _ := strconv.ParseBool(r.URL.Query().Get("embeded"))
+		embedded, _ := strconv.ParseBool(r.URL.Query().Get("embedded"))
 		query := r.URL.Query()
-		query.Del("embeded")
+		query.Del("embedded")
 		r.URL.RawQuery = query.Encode()
 		err = template.Execute(w, CodePageData{
 			Code:    code,
-			Embeded: embeded,
+			Embedded: embedded,
 			URL:     r.URL.String(),
 			Host:    r.URL.Host,
 		})
