@@ -21,7 +21,7 @@ $ git clone https://github.com/KeKsBoTer/setlXPlayground
 ```
 
 ## Run with Docker
-Docker is a create tool to run the playground and even can be used to deploy it on a server.  
+Docker is a great tool to run the playground and even can be used to deploy it on a server.  
 ``` bash
 # build the image
 $ docker build -t setlxplayground .
