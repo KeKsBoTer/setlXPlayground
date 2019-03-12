@@ -73,9 +73,8 @@ func (w *writer) Write(bytes []byte) (int, error) {
 
 const maxExecutionTime = 3 * time.Minute
 
-// Workaround
-// create temp file, run it and then delte it
-func runCode(code string) ([]Message, error) {
+// RunCode executes given setlx code and returns the output
+func RunCode(code string) ([]Message, error) {
 	code += "\n return 0;"
 	ctx, cancel := context.WithTimeout(context.Background(), maxExecutionTime)
 	defer cancel()
