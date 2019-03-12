@@ -6,12 +6,13 @@ COPY go.sum go.sum
 
 RUN go mod download
 
-COPY  main.go main.go
-COPY  run.go run.go
-COPY  database.go database.go
+COPY  cmd cmd
+COPY  execute.go .
+COPY  handler.go .
+COPY  router.go .
+COPY  database.go .
 
-RUN CGO_ENABLED=0 GOOS=linux go build -ldflags="-s -w" -a -installsuffix nocgo -o setlxplay .
-
+RUN CGO_ENABLED=0 go build -ldflags="-s -w" -a -installsuffix nocgo -o setlxplay github.com/keksboter/setlxplayground/cmd/setlxplayground
 
 FROM gcr.io/distroless/java
 WORKDIR /root/
